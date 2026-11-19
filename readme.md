@@ -6,7 +6,7 @@ Userscript that copies the webpage's entire content including the shadow roots.
 ## Installation
 
 1. Install a userscript manager in the browser.
-2. [Install the userscript](https://raw.githubusercontent.com/ryn-cx/get-html-with-shadow-roots/gh-pages/index.prod.user.js).
+2. [Install the userscript](https://github.com/ryn-cx/get-html-with-shadow-roots/releases/latest/download/index.prod.user.js).
 
 ## Why it exists
 
