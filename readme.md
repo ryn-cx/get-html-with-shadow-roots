@@ -1,59 +1,45 @@
-# This is a project help you build userscript with webpack
+<!-- TODO: Validate -->
+# Get HTML With Shadow Roots
 
-Just [use this git repo as a template](https://github.com/Trim21/webpack-userscript-template/generate).
+Userscript that copies the webpage's entire content including the shadow roots.
 
-[中文说明](./readme.cn.md)
+## Installation
 
-## dev
+1. Install a userscript manager in the browser.
+2. [Install the userscript](https://raw.githubusercontent.com/ryn-cx/get-html-with-shadow-roots/gh-pages/index.prod.user.js).
 
-1. Allow Tampermonkey's access to local file URIs [tampermonkey/faq](https://tampermonkey.net/faq.php?ext=dhdg#Q204)
-2. install deps with `npm i` or `npm ci`.
-3. `npm run dev` to start your development.
+## Why it exists
 
-Now you will see 2 files in `./dist/`
+Web browsers do not have an easy way to copy a page's HTML with its shadow roots included.
 
--   `dist/index.dev.user.js`: **You should install this userscript in your browser.** It's a simple loader that load `dist/index.debug.js` on matched web page.
--   `dist/index.debug.js`: This is the development build with `eval-source-map`. It will be automatically loaded by `dist/index.dev.user.js` via `@require file://.../dist/index.debug.js` metadata, **Don't add it to your userscript manager.**
+## Alternatives to This Userscript
 
-4. edit [src/index.ts](./src/index.ts), you can even import css or less files. You can use scss if you like.
-5. go wo <https://www.example.com/> and open console, you'll see it's working.
+- **Manual reconstruction** The web browser can only copy shadow roots one at a time, by right-clicking the
+  `#shadow-root` node and choosing **Copy → Inner HTML**. This is a slow and tedious
+  process that requires the user to manually rebuild the HTML by hand.
+- **Running a snippet** A snippet can do it by running `document.documentElement.getHTML()` with
+  every shadow root passed in its `shadowRoots` option. This works well, but
+  it's convenient to have a single button instead of having to constantly
+  copy and paste a snippet.
 
-livereload is default enabled, use [this Chrome extension](https://chrome.google.com/webstore/detail/jnihajbhpnppcggbcgedagnkighmdlei)
+  ```js
+  function findOpenShadowRoots(searchRoot) {
+    const openShadowRoots = [];
+    for (const element of searchRoot.querySelectorAll("*")) {
+      if (element.shadowRoot !== null) {
+        openShadowRoots.push(element.shadowRoot, ...findOpenShadowRoots(element.shadowRoot));
+      }
+    }
+    return openShadowRoots;
+  }
 
-### NOTICE
+  copy(`<!doctype html>\n${document.documentElement.getHTML({ shadowRoots: findOpenShadowRoots(document) })}`);
+  ```
 
-Everytime you change your metadata config,
-you'll have to restart webpack server and install newly generated `dist/index.dev.user.js` UserScript in your browser again.
+## Limitation
 
-## used package
+- **Closed shadow roots are not copied.** A userscript cannot access a shadow root created with `mode: "closed"`, because `element.shadowRoot` is `null` for it.
 
-If you prefer some other bundler like rollup, you can use some of these packages directly.
-
-[userscript-metadata-generator](https://github.com/trim21/userscript-metadata-generator)
-
-[gm-fetch](https://github.com/trim21/gm-fetch)
-
-[userscript-metadata-webpack-plugin](https://github.com/trim21/userscript-metadata-webpack-plugin)
-
-## Cross Site Request
-
-you can call `GM.xmlHttpRequest` directly or use a fetch API based on `GM.xmlHttpRequest` <https://github.com/Trim21/gm-fetch>
-
-## TypeScript
-
-use typescript as normal, see [example](src/index.ts)
-
-## dependencies
-
-There are two ways to using a package on npm.
-
-### UserScript way
-
-like original UserScript way, you will need to add them to your [user script metadata's require section](./config/metadata.cjs#L16-L18) , and exclude them in [config/webpack.config.base.cjs](./config/webpack.config.base.cjs#L18-L20)
-
-### Webpack way
-
-just install packages with npm and import them in your code, webpack will take care them.
 
 ## Build
 
@@ -62,25 +48,3 @@ npm run build
 ```
 
 `dist/index.prod.user.js` is the final script. you can manually copy it to greasyfork for deploy.
-
-### Minify
-
-There is a [limitation in greasyfork](https://greasyfork.org/en/help/code-rules), your code must not be obfuscated or minified.
-
-If you don't need to deploy your script to greasyfork, enable minify as you like.
-
-## automatically Deploy
-
-[github actions](./.github/workflows/deploy.yaml#L36) will deploy production userscript to gh-pages branch.
-
-[example](https://github.com/Trim21/webpack-userscript-template/tree/gh-pages)
-
-[deployed](https://trim21.github.io/webpack-userscript-template/index.prod.user.js)
-
-You can auto use greasyfork's auto update function.
-
-## Q&A
-
-you may find enabling source map not working well in production code, because Tampermonkey will add extra lines (all your `@require`) before your script. I don't know if there is a good fix for this, You need to use webpack config `devtool` with `eval` prefix to make it work as expected, so source map is disabled in this production build.
-
-<https://webpack.js.org/configuration/devtool/#development>

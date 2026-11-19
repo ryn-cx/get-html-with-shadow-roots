@@ -1,10 +1,9 @@
 {
-  "name": "webpack-userscript-template",
-  "description": "Build your UserScript with webpack",
-  "version": "0.0.1",
+  "name": "get-html-with-shadow-roots",
+  "description": "Copies a page's HTML with its shadow roots included, which Firefox's Inspector Copy menu leaves out.",
+  "version": "0.1.0",
   "author": {
-    "name": "Trim21",
-    "email": "trim21me@gmail.com"
+    "name": "ryn-cx"
   },
   "scripts": {
     "format": "prettier -w ./",
@@ -16,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/trim21/webpack-userscript-template"
+    "url": "https://github.com/ryn-cx/get-html-with-shadow-roots"
   },
   "private": true,
   "dependencies": {
