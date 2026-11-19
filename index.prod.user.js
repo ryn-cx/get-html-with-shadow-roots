@@ -23,7 +23,6 @@ function findOpenShadowRoots(searchRoot) {
     }
     return openShadowRoots;
 }
-// TODO: Validate
 function copyPageHtmlWithShadowRoots() {
     const openShadowRoots = findOpenShadowRoots(document);
     const pageHtmlWithShadowRoots = `<!doctype html>\n${document.documentElement.getHTML({ shadowRoots: openShadowRoots })}`;
