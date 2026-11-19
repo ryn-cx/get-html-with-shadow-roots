@@ -16,9 +16,8 @@ function copyPageHtmlWithShadowRoots(): void {
   const openShadowRoots = findOpenShadowRoots(document);
   const pageHtmlWithShadowRoots = `<!doctype html>\n${document.documentElement.getHTML({ shadowRoots: openShadowRoots })}`;
   GM.setClipboard(pageHtmlWithShadowRoots);
-  GM.notification(
-    `Copied ${pageHtmlWithShadowRoots.length} HTML with ${openShadowRoots.length} shadow roots.`,
-    "Get HTML With Shadow Roots",
+  alert(
+    `Copied ${pageHtmlWithShadowRoots.length} characters of HTML with ${openShadowRoots.length} shadow roots.`,
   );
 }
 

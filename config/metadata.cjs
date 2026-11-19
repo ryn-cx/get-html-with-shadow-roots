@@ -12,7 +12,7 @@ module.exports = {
   source: repository.url,
   // 'license': 'MIT',
   match: ["*://*/*"],
-  grant: ["GM.registerMenuCommand", "GM.setClipboard", "GM.notification"],
+  grant: ["GM.registerMenuCommand", "GM.setClipboard"],
   noframes: "",
   "run-at": "document-end",
 };
