@@ -1,7 +1,7 @@
 {
   "name": "get-html-with-shadow-roots",
   "description": "Copies a page's HTML with its shadow roots included, which Firefox's Inspector Copy menu leaves out.",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "author": {
     "name": "ryn-cx"
   },
