@@ -7,7 +7,6 @@
 // @match       *://*/*
 // @grant       GM.registerMenuCommand
 // @grant       GM.setClipboard
-// @grant       GM.notification
 // @noframes
 // @run-at      document-end
 // ==/UserScript==
@@ -27,7 +26,7 @@ function copyPageHtmlWithShadowRoots() {
     const openShadowRoots = findOpenShadowRoots(document);
     const pageHtmlWithShadowRoots = `<!doctype html>\n${document.documentElement.getHTML({ shadowRoots: openShadowRoots })}`;
     GM.setClipboard(pageHtmlWithShadowRoots);
-    GM.notification(`Copied ${pageHtmlWithShadowRoots.length} HTML with ${openShadowRoots.length} shadow roots.`, "Get HTML With Shadow Roots");
+    alert(`Copied ${pageHtmlWithShadowRoots.length} characters of HTML with ${openShadowRoots.length} shadow roots.`);
 }
 GM.registerMenuCommand("Copy page HTML with shadow roots", copyPageHtmlWithShadowRoots);
 
