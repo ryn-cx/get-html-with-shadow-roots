@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Get HTML With Shadow Roots
 // @namespace   https://github.com/ryn-cx/get-html-with-shadow-roots
-// @version     0.1.0
+// @version     1.0.2
 // @author      ryn-cx
 // @source      https://github.com/ryn-cx/get-html-with-shadow-roots
 // @match       *://*/*
@@ -26,7 +26,7 @@ function copyPageHtmlWithShadowRoots() {
     const openShadowRoots = findOpenShadowRoots(document);
     const pageHtmlWithShadowRoots = `<!doctype html>\n${document.documentElement.getHTML({ shadowRoots: openShadowRoots })}`;
     GM.setClipboard(pageHtmlWithShadowRoots);
-    alert(`Copied ${pageHtmlWithShadowRoots.length} characters of HTML with ${openShadowRoots.length} shadow roots.`);
+    alert(`Copied HTML with ${openShadowRoots.length} shadow roots.`);
 }
 GM.registerMenuCommand("Copy page HTML with shadow roots", copyPageHtmlWithShadowRoots);
 
