@@ -1,4 +1,3 @@
-<!-- TODO: Validate -->
 # Get HTML With Shadow Roots
 
 Userscript that copies the webpage's entire content including the shadow roots.

@@ -3,13 +3,15 @@ function findOpenShadowRoots(searchRoot: Document | ShadowRoot): ShadowRoot[] {
   const openShadowRoots: ShadowRoot[] = [];
   for (const element of searchRoot.querySelectorAll("*")) {
     if (element.shadowRoot !== null) {
-      openShadowRoots.push(element.shadowRoot, ...findOpenShadowRoots(element.shadowRoot));
+      openShadowRoots.push(
+        element.shadowRoot,
+        ...findOpenShadowRoots(element.shadowRoot),
+      );
     }
   }
   return openShadowRoots;
 }
 
-// TODO: Validate
 function copyPageHtmlWithShadowRoots(): void {
   const openShadowRoots = findOpenShadowRoots(document);
   const pageHtmlWithShadowRoots = `<!doctype html>\n${document.documentElement.getHTML({ shadowRoots: openShadowRoots })}`;
@@ -20,4 +22,7 @@ function copyPageHtmlWithShadowRoots(): void {
   );
 }
 
-GM.registerMenuCommand("Copy page HTML with shadow roots", copyPageHtmlWithShadowRoots);
+GM.registerMenuCommand(
+  "Copy page HTML with shadow roots",
+  copyPageHtmlWithShadowRoots,
+);
